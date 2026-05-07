@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Zebra | Billboard Advertising</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        :root{
+            --black:#0a0a0a;--white:#ffffff;--gray:#f5f5f5;--light:#fafafa;
+            --border:#e8e8e8;--mid-gray:#888888;--text:#2a2a2a;--text-light:#666666;
+            --accent:#f5a623;--accent-light:#fff8ed;--accent-border:#fde8bc;
+        }
+        body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--white);color:var(--black);overflow-x:hidden;}
+        nav{position:fixed;top:0;width:100%;background:rgba(0,0,0,0.95);backdrop-filter:blur(10px);z-index:1000;padding:0 50px;height:74px;display:flex;align-items:center;justify-content:space-between;}
+        .logo{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer;}
+        .logo-mark{width:44px;height:44px;flex-shrink:0;}
+        .logo-name{color:var(--white);font-size:1.22rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;line-height:1.15;}
+        .logo-sub{font-size:0.52rem;letter-spacing:3px;color:var(--mid-gray);text-transform:uppercase;}
+        .nav-links{display:flex;list-style:none;gap:32px;align-items:center;}
+        .nav-links a{color:var(--white);text-decoration:none;font-size:0.78rem;letter-spacing:2px;text-transform:uppercase;transition:color 0.3s;cursor:pointer;}
+        .nav-links a:hover{color:var(--mid-gray);}
+        .nav-cta{background:var(--white)!important;color:var(--black)!important;padding:10px 22px;font-weight:700!important;}
+        .nav-cta:hover{background:var(--mid-gray)!important;color:var(--white)!important;}
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+        .hamburger span{display:block;width:25px;height:2px;background:var(--white);}
+        .page{display:none;}
+        .page.active{display:block;}
+        .hero{min-height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+        .hero-bg{position:absolute;inset:0;background-image:url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg/1920px-Everest_North_Face_toward_Base_Camp_Tibet_Luca_Galuzzi_2006.jpg');background-size:cover;background-position:center;filter:grayscale(100%) brightness(0.28);transform:scale(1.03);transition:transform 8s ease;}
+        .hero-bg.loaded{transform:scale(1);}
+        .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.55) 0%,rgba(0,0,0,0.2) 35%,rgba(0,0,0,0.2) 60%,rgba(0,0,0,0.75) 100%);}
+        .hero-content{text-align:center;z-index:2;max-width:860px;padding:0 60px;position:relative;}
+        .hero-eyebrow{font-size:0.7rem;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:20px;}
+        .hero h1{font-size:clamp(2.6rem,6.5vw,5.2rem);font-weight:800;color:var(--white);line-height:1.05;letter-spacing:-1px;margin-bottom:40px;text-shadow:0 2px 30px rgba(0,0,0,0.6);}
+        .hero h1 span{color:transparent;-webkit-text-stroke:1px var(--white);}
+        .hero-btn{display:inline-flex;align-items:center;gap:10px;background:var(--white);color:var(--black);padding:16px 42px;font-size:0.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;}
+        .hero-btn:hover{background:var(--mid-gray);color:var(--white);}
+        .hero-stats{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:2px;margin-top:60px;flex-wrap:wrap;padding:0 60px;}
+        .hero-stat{background:rgba(0,0,0,0.55);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.1);padding:28px 36px;text-align:center;min-width:180px;}
+        .hero-stat-num{font-size:2rem;font-weight:800;color:var(--white);letter-spacing:-1px;line-height:1;margin-bottom:6px;}
+        .hero-stat-label{font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);line-height:1.5;}
+        .scroll-indicator{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:3;}
+        .scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.4));}
+        .scroll-text{font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);}
+        .science-teaser{background:var(--white);padding:90px 60px;}
+        .science-teaser-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+        .st-eyebrow{font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:16px;}
+        .st-left h2{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:800;color:var(--black);letter-spacing:-1px;line-height:1.1;margin-bottom:20px;}
+        .st-left h2 span{color:transparent;-webkit-text-stroke:1px var(--black);}
+        .st-left p{font-size:0.93rem;line-height:1.9;color:var(--text-light);margin-bottom:28px;}
+        .st-cta{display:inline-flex;align-items:center;gap:10px;background:var(--black);color:var(--white);padding:14px 30px;font-size:0.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;}
+        .st-cta:hover{background:#333;}
+        .st-right{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+        .st-stat-card{background:var(--gray);border:1px solid var(--border);padding:28px 22px;}
+        .st-stat-card:first-child{grid-column:span 2;background:var(--black);}
+        .st-stat-num{font-size:2.4rem;font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:6px;}
+        .st-stat-card:first-child .st-stat-num{color:var(--white);font-size:3rem;}
+        .st-stat-card:not(:first-child) .st-stat-num{color:var(--black);}
+        .st-stat-label{font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;line-height:1.6;color:var(--mid-gray);}
+        .quality-section{padding:100px 60px;background:var(--black);}
+        .quality-inner{max-width:1060px;margin:0 auto;}
+        .quality-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+        .quality-text .section-eyebrow{text-align:left;margin-bottom:14px;color:var(--mid-gray);}
+        .quality-text h2{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-1px;color:var(--white);line-height:1.15;margin-bottom:24px;}
+        .quality-text h2 span{color:transparent;-webkit-text-stroke:1px var(--white);}
+        .quality-text p{font-size:0.93rem;line-height:1.9;color:var(--mid-gray);margin-bottom:16px;}
+        .quality-cta{display:inline-flex;align-items:center;gap:10px;background:var(--white);color:var(--black);padding:14px 30px;font-size:0.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;margin-top:8px;}
+        .quality-cta:hover{background:var(--mid-gray);color:var(--white);}
+        .quality-pillars{display:grid;gap:2px;}
+        .quality-pillar{background:#1a1a1a;padding:28px 24px;display:flex;align-items:flex-start;gap:18px;transition:background 0.3s;}
+        .quality-pillar:hover{background:#222;}
+        .qp-icon{width:42px;height:42px;background:var(--white);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;}
+        .qp-title{font-size:0.9rem;font-weight:700;color:var(--white);margin-bottom:5px;}
+        .qp-desc{font-size:0.78rem;color:var(--mid-gray);line-height:1.7;}
+        .philosophy-strip{background:var(--white);padding:80px 60px;border-top:1px solid var(--border);}
+        .philosophy-inner{max-width:1060px;margin:0 auto;}
+        .philosophy-sub{font-size:0.93rem;color:var(--text-light);line-height:1.9;max-width:720px;}
+        .philosophy-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:52px;}
+        .phil-stat{background:var(--gray);border:1px solid var(--border);padding:28px 22px;}
+        .phil-stat-num{font-size:2rem;font-weight:800;color:var(--black);letter-spacing:-1px;margin-bottom:5px;}
+        .phil-stat-label{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--mid-gray);line-height:1.5;}
+        .impressions-strip{padding:72px 60px;text-align:center;background:var(--black);}
+        .impressions-number{font-size:clamp(3.2rem,7vw,5.5rem);font-weight:800;color:var(--white);letter-spacing:-3px;line-height:1;}
+        .impressions-label{font-size:0.7rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);margin-top:12px;}
+        .section-eyebrow{font-size:0.68rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:14px;}
+        .section-title{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:800;letter-spacing:-1px;color:var(--black);}
+        .section-line{width:38px;height:2px;background:var(--black);margin:16px auto 0;}
+        .section-header{text-align:center;margin-bottom:48px;}
+        footer{background:var(--black);padding:48px 60px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1c1c1c;}
+        .footer-logo{display:flex;align-items:center;gap:14px;}
+        .footer-logo-text{color:var(--white);font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+        .footer-tagline{font-size:0.56rem;color:var(--mid-gray);letter-spacing:2px;margin-top:4px;}
+        .footer-right{font-size:0.66rem;color:var(--mid-gray);text-align:right;}
+        .sci-hero{padding:150px 60px 80px;background:var(--black);position:relative;overflow:hidden;}
+        .sci-hero-pattern{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,0.015) 60px,rgba(255,255,255,0.015) 61px);}
+        .sci-hero-inner{max-width:860px;position:relative;z-index:1;}
+        .sci-hero-eyebrow{font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:16px;}
+        .sci-hero h1{font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:800;color:var(--white);letter-spacing:-2px;line-height:1.08;margin-bottom:24px;}
+        .sci-hero h1 span{color:transparent;-webkit-text-stroke:1px var(--white);}
+        .sci-hero-intro{font-size:1rem;color:var(--mid-gray);line-height:1.9;max-width:680px;margin-bottom:32px;}
+        .sci-hero-intro strong{color:var(--white);}
+        .sci-source-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);}
+        .sci-source-text{font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);}
+        .sci-truth{background:var(--white);padding:80px 60px;}
+        .sci-truth-inner{max-width:1060px;margin:0 auto;}
+        .sci-truth-label{font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);text-align:center;margin-bottom:14px;}
+        .sci-truth-headline{font-size:clamp(2rem,4vw,3.2rem);font-weight:800;color:var(--black);letter-spacing:-2px;text-align:center;line-height:1.1;margin-bottom:10px;}
+        .sci-truth-sub{font-size:0.92rem;color:var(--text-light);text-align:center;max-width:580px;margin:0 auto 56px;line-height:1.8;}
+        .sci-big-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px;}
+        .sci-big-stat{background:var(--black);padding:44px 36px;text-align:center;position:relative;overflow:hidden;}
+        .sci-big-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+        .sci-big-stat.s1::before{background:linear-gradient(90deg,#f97316,#f59e0b);}
+        .sci-big-stat.s2::before{background:linear-gradient(90deg,#f59e0b,#fcd34d);}
+        .sci-big-stat.s3::before{background:linear-gradient(90deg,#fcd34d,#fff);}
+        .sci-big-num{font-size:clamp(3.5rem,6vw,5rem);font-weight:800;color:var(--white);letter-spacing:-4px;line-height:1;margin-bottom:10px;}
+        .sci-big-num span{font-size:2rem;letter-spacing:-1px;vertical-align:super;font-weight:700;opacity:0.7;}
+        .sci-big-stat-label{font-size:0.75rem;color:var(--mid-gray);line-height:1.7;max-width:220px;margin:0 auto;}
+        .sci-big-stat-label strong{color:var(--white);display:block;font-size:0.85rem;margin-bottom:4px;}
+        .sci-compare-bar{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;}
+        .sci-compare{background:var(--gray);border:1px solid var(--border);padding:32px 36px;display:flex;align-items:center;gap:24px;}
+        .sci-compare-icon{font-size:2rem;flex-shrink:0;}
+        .sci-compare-text{font-size:0.9rem;color:var(--text-light);line-height:1.75;}
+        .sci-compare-text strong{color:var(--black);font-size:1rem;display:block;margin-bottom:4px;}
+        .sci-media-section{background:var(--black);padding:90px 60px;}
+        .sci-media-inner{max-width:1060px;margin:0 auto;}
+        .sci-media-header{text-align:center;margin-bottom:60px;}
+        .sci-media-eyebrow{font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:14px;}
+        .sci-media-title{font-size:clamp(1.9rem,3.5vw,2.6rem);font-weight:800;color:var(--white);letter-spacing:-1px;line-height:1.1;margin-bottom:14px;}
+        .sci-media-sub{font-size:0.9rem;color:var(--mid-gray);max-width:580px;margin:0 auto;line-height:1.8;}
+        .sci-media-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+        .donut-col{display:flex;flex-direction:column;gap:28px;}
+        .donut-card{background:#111;padding:24px 22px;}
+        .donut-card-title{font-size:0.58rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:18px;text-align:center;}
+        .donut-wrap{display:flex;align-items:center;gap:20px;}
+        .donut-svg{width:120px;height:120px;flex-shrink:0;}
+        .donut-legend{flex:1;display:flex;flex-direction:column;gap:8px;}
+        .dl-row{display:flex;align-items:center;gap:8px;}
+        .dl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+        .dl-label{font-size:0.72rem;color:var(--mid-gray);flex:1;}
+        .dl-val{font-size:0.78rem;font-weight:700;color:var(--white);}
+        .compare-facts{display:flex;flex-direction:column;gap:2px;}
+        .compare-fact{background:#1a1a1a;padding:24px 26px;border-left:3px solid transparent;transition:background 0.3s;}
+        .compare-fact.cf-awareness{border-left-color:#ff6b00;}
+        .compare-fact.cf-consideration{border-left-color:#3b9eff;}
+        .compare-fact.cf-purchase{border-left-color:#00c875;}
+        .compare-fact:hover{background:#222;}
+        .cf-tag{font-size:0.52rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:700;}
+        .cf-awareness .cf-tag{color:#ff6b00;}
+        .cf-consideration .cf-tag{color:#3b9eff;}
+        .cf-purchase .cf-tag{color:#00c875;}
+        .cf-heading{font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:8px;}
+        .cf-body{font-size:0.8rem;color:var(--mid-gray);line-height:1.7;}
+        .cf-body strong{color:var(--white);}
+        .sci-categories{background:var(--white);padding:90px 60px;}
+        .sci-cat-inner{max-width:860px;margin:0 auto;}
+        .sci-cat-header{text-align:center;margin-bottom:52px;}
+        .sci-cat-eyebrow{font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:14px;}
+        .sci-cat-title{font-size:clamp(1.9rem,3.5vw,2.6rem);font-weight:800;color:var(--black);letter-spacing:-1px;line-height:1.1;}
+        .sci-cards{display:flex;flex-direction:column;gap:2px;margin-bottom:2px;}
+        .sci-card{background:var(--gray);border:1px solid var(--border);display:grid;grid-template-columns:220px 1fr;position:relative;overflow:hidden;transition:box-shadow 0.3s;}
+        .sci-card:hover{box-shadow:0 4px 24px rgba(0,0,0,0.07);}
+        .sci-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--black);}
+        .sci-card-left{padding:36px 32px 36px 36px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);}
+        .sci-card-step{font-size:0.52rem;letter-spacing:4px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:12px;}
+        .sci-card-heading{font-size:clamp(1.2rem,1.8vw,1.5rem);font-weight:800;color:var(--black);letter-spacing:-0.5px;line-height:1.2;}
+        .sci-card-facts{list-style:none;padding:32px 36px;display:flex;flex-direction:column;justify-content:center;gap:14px;}
+        .sci-card-facts li{display:flex;align-items:flex-start;gap:12px;}
+        .sci-fact-bullet{width:5px;height:5px;background:var(--black);flex-shrink:0;margin-top:8px;opacity:0.3;}
+        .sci-fact-text{font-size:0.86rem;color:var(--text-light);line-height:1.7;}
+        .sci-fact-text strong{color:var(--black);font-weight:700;}
+        .sci-insight-bar{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+        .sci-insight{background:var(--black);padding:28px 32px;display:flex;align-items:flex-start;gap:16px;}
+        .sci-insight-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+        .sci-insight-text{font-size:0.82rem;color:var(--mid-gray);line-height:1.75;}
+        .sci-insight-text strong{color:var(--white);}
+        .boards-hero{padding:150px 60px 70px;background:var(--black);position:relative;overflow:hidden;}
+        .boards-hero-pattern{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,0.015) 60px,rgba(255,255,255,0.015) 61px);}
+        .boards-hero h1{font-size:clamp(2.2rem,5vw,4rem);font-weight:800;color:var(--white);letter-spacing:-2px;line-height:1.1;position:relative;z-index:1;}
+        .boards-hero h1 span{color:transparent;-webkit-text-stroke:1px var(--white);}
+        .boards-hero-sub{color:var(--mid-gray);font-size:0.93rem;margin-top:14px;max-width:480px;line-height:1.8;position:relative;z-index:1;}
+        .boards-body{padding:50px 60px 70px;max-width:1200px;margin:0 auto;}
+        .board-card{background:var(--white);border:1px solid #e8e8e8;margin-bottom:24px;overflow:hidden;}
+        .board-card-header{background:var(--black);padding:22px 36px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
+        .board-location-name{font-size:1.25rem;font-weight:800;color:var(--white);letter-spacing:-0.5px;}
+        .board-address{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--mid-gray);margin-top:3px;}
+        .board-status-chip{font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(255,255,255,0.3);color:var(--white);flex-shrink:0;}
+        .board-status-chip.secret{border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);}
+        .board-expandable{display:none;}
+        .board-expandable.open{display:block;}
+        .board-card-body{display:grid;grid-template-columns:1fr 1.1fr;}
+        .board-image{background:#111;min-height:280px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+        .board-image-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?w=800&q=80');background-size:cover;background-position:center;filter:grayscale(30%) brightness(0.65);}
+        .board-image-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,0.3),rgba(0,0,0,0.05));}
+        .billboard-mockup{position:relative;z-index:2;width:68%;aspect-ratio:3/1;background:var(--black);border:2px solid rgba(255,255,255,0.75);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;box-shadow:0 4px 24px rgba(0,0,0,0.5);padding:10px;}
+        .billboard-mockup svg{width:28px;height:28px;}
+        .mockup-text{color:var(--white);font-size:0.58rem;letter-spacing:4px;text-transform:uppercase;font-weight:700;}
+        .mockup-sub{color:rgba(255,255,255,0.45);font-size:0.42rem;letter-spacing:3px;text-transform:uppercase;}
+        .board-image-label{position:absolute;bottom:12px;left:12px;z-index:3;background:rgba(0,0,0,0.65);padding:5px 10px;font-size:0.54rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.65);}
+        .board-details{padding:28px 30px;display:flex;flex-direction:column;justify-content:space-between;}
+        .board-specs{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:18px;}
+        .spec-item{background:var(--gray);padding:13px 12px;}
+        .spec-label{font-size:0.54rem;letter-spacing:3px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:3px;}
+        .spec-value{font-size:0.88rem;font-weight:700;color:var(--black);}
+        .board-summary{font-size:0.8rem;line-height:1.78;color:#555;margin-bottom:16px;}
+        .board-nearby{margin-bottom:18px;}
+        .nearby-title{font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:8px;}
+        .nearby-tags{display:flex;flex-wrap:wrap;gap:5px;}
+        .nearby-tag{font-size:0.62rem;padding:3px 8px;background:var(--gray);color:var(--black);font-weight:500;}
+        .board-cta{display:block;text-align:center;padding:11px 20px;background:var(--black);color:var(--white);font-size:0.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;}
+        .board-cta:hover{background:#333;}
+        .board-pricing{padding:0 30px 30px;}
+        .bp-title{font-size:0.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:16px;padding-top:20px;border-top:1px solid var(--border);}
+        .bp-visual-label{font-size:0.52rem;letter-spacing:3px;text-transform:uppercase;color:#bbb;margin-bottom:8px;}
+        .bp-bar{display:flex;height:36px;gap:1px;overflow:hidden;margin-bottom:1px;}
+        .bp-seg{display:flex;align-items:center;justify-content:center;font-size:0.46rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:rgba(0,0,0,0.6);overflow:hidden;white-space:nowrap;padding:2px;}
+        .bp-seg.prem{background:rgba(245,166,35,0.85);flex:4;}
+        .bp-seg.exec{background:rgba(100,160,255,0.75);flex:2;}
+        .bp-seg.std{background:rgba(100,200,130,0.75);flex:1;}
+        .bp-cards{display:flex;gap:1px;margin-bottom:16px;}
+        .bp-card{padding:16px 14px;flex:1;}
+        .bp-card.prem-card{flex:4;background:var(--accent-light);border:1px solid var(--accent-border);}
+        .bp-card.exec-card{flex:2;background:#eef3ff;border:1px solid #c5d0f0;}
+        .bp-card.std-card{flex:1;background:#eef8f2;border:1px solid #b8e0c6;}
+        .bp-card-pkg{font-size:0.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+        .prem-card .bp-card-pkg{color:#b07400;}
+        .exec-card .bp-card-pkg{color:#3355cc;}
+        .std-card .bp-card-pkg{color:#2a7a45;}
+        .bp-card-duration{font-size:0.72rem;color:var(--text-light);margin-bottom:10px;}
+        .bp-card-price{font-size:1.3rem;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1;}
+        .bp-card-price sup{font-size:0.7rem;font-weight:400;vertical-align:super;}
+        .bp-card-price-sub{font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:2px;}
+        .bp-book-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+        .bp-book-btn{display:block;text-align:center;padding:10px 8px;background:var(--black);color:var(--white);font-size:0.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;}
+        .bp-book-btn:hover{background:#333;}
+        .mystery-body{padding:52px 40px;background:repeating-linear-gradient(45deg,#f9f9f9,#f9f9f9 10px,#f5f5f5 10px,#f5f5f5 20px);display:flex;align-items:center;gap:36px;}
+        .mystery-icon-wrap{width:72px;height:72px;background:var(--black);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.6rem;}
+        .mystery-text-wrap{flex:1;}
+        .mystery-tag{font-size:0.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:8px;}
+        .mystery-title{font-size:1.2rem;font-weight:800;color:var(--black);letter-spacing:-0.5px;margin-bottom:8px;}
+        .mystery-desc{font-size:0.82rem;color:#666;line-height:1.7;max-width:480px;}
+        .mystery-hint{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--black);font-weight:700;}
+        .mystery-hint::before{content:'→';}
+        .boards-teaser{background:var(--black);padding:40px 60px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;}
+        .boards-teaser-text h3{font-size:1.1rem;font-weight:800;color:var(--white);margin-bottom:6px;}
+        .boards-teaser-text p{font-size:0.8rem;color:var(--mid-gray);line-height:1.7;max-width:500px;}
+        .boards-teaser-btn{background:var(--white);color:var(--black);padding:13px 28px;font-size:0.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.3s;text-decoration:none;flex-shrink:0;}
+        .boards-teaser-btn:hover{background:var(--mid-gray);color:var(--white);}
+        .about-hero{padding:150px 60px 90px;background:var(--black);position:relative;overflow:hidden;}
+        .about-hero-pattern{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,0.015) 60px,rgba(255,255,255,0.015) 61px);}
+        .about-hero h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:800;color:var(--white);letter-spacing:-2px;max-width:700px;line-height:1.1;position:relative;z-index:1;}
+        .about-hero h1 span{color:transparent;-webkit-text-stroke:1px var(--white);}
+        .about-hero-sub{color:var(--mid-gray);font-size:1rem;margin-top:18px;max-width:540px;line-height:1.8;position:relative;z-index:1;}
+        .about-body{padding:90px 60px;max-width:1200px;margin:0 auto;}
+        .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;margin-bottom:72px;}
+        .about-text h2{font-size:1.75rem;font-weight:800;margin-bottom:22px;letter-spacing:-0.5px;}
+        .about-text p{font-size:0.93rem;line-height:1.9;color:#555;margin-bottom:18px;}
+        .about-values{display:grid;gap:2px;}
+        .value-item{padding:30px;background:var(--gray);}
+        .value-number{font-size:0.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:12px;}
+        .value-title{font-size:1.05rem;font-weight:700;margin-bottom:9px;}
+        .value-desc{font-size:0.83rem;color:#666;line-height:1.7;}
+        .team-section{padding:0 60px 90px;}
+        .team-intro{max-width:700px;margin:0 auto 48px;text-align:center;}
+        .team-intro p{font-size:0.95rem;line-height:1.9;color:#555;}
+        .team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;max-width:900px;margin:0 auto;}
+        .team-card{background:var(--gray);padding:48px 40px;position:relative;transition:background 0.3s;}
+        .team-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--black);}
+        .team-card:hover{background:#e8e8e8;}
+        .team-avatar{width:64px;height:64px;background:var(--black);display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+        .team-initials{color:var(--white);font-size:1.2rem;font-weight:800;letter-spacing:1px;}
+        .team-role{font-size:0.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:10px;}
+        .team-name{font-size:1.5rem;font-weight:800;color:var(--black);letter-spacing:-0.5px;line-height:1.2;margin-bottom:16px;}
+        .team-divider{width:28px;height:2px;background:var(--black);opacity:0.25;margin-bottom:16px;}
+        .team-desc{font-size:0.83rem;color:#666;line-height:1.75;}
+        .location-section{padding:90px 60px;background:var(--white);}
+        .location-inner{max-width:1100px;margin:0 auto;}
+        .location-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+        .location-text h2{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;color:var(--black);letter-spacing:-1px;margin-bottom:22px;line-height:1.15;}
+        .location-text p{font-size:0.93rem;line-height:1.9;color:#555;margin-bottom:16px;}
+        .location-address-box{background:var(--black);color:var(--white);padding:20px 24px;margin-top:8px;display:flex;align-items:center;gap:14px;}
+        .address-icon{font-size:1.2rem;flex-shrink:0;}
+        .address-label{font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:3px;}
+        .address-value{font-size:0.9rem;font-weight:600;color:var(--white);}
+        .location-highlights{display:grid;gap:2px;}
+        .location-highlight{padding:20px 24px;background:var(--gray);display:flex;align-items:center;gap:14px;transition:background 0.3s;}
+        .location-highlight:hover{background:#ebebeb;}
+        .highlight-dot{width:6px;height:6px;background:var(--black);flex-shrink:0;}
+        .highlight-text{font-size:0.84rem;color:var(--black);font-weight:500;}
+        .contact-hero{padding:150px 60px 90px;background:var(--black);}
+        .contact-hero h1{font-size:clamp(2.5rem,6vw,5rem);font-weight:800;color:var(--white);letter-spacing:-2px;max-width:700px;line-height:1.1;}
+        .contact-body{padding:90px 60px;max-width:1200px;margin:0 auto;}
+        .contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:72px;}
+        .contact-info h3{font-size:0.92rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:26px;}
+        .contact-detail{margin-bottom:22px;}
+        .contact-detail-label{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:4px;}
+        .contact-detail-value{font-size:0.92rem;color:var(--black);line-height:1.6;}
+        .contact-form{display:grid;gap:16px;}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+        .form-group{display:flex;flex-direction:column;gap:6px;}
+        .form-group label{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--mid-gray);}
+        .form-group input,.form-group select,.form-group textarea{padding:12px 15px;background:var(--gray);border:1px solid transparent;font-size:0.86rem;color:var(--black);font-family:inherit;transition:border-color 0.3s;outline:none;}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--black);}
+        .form-group textarea{resize:vertical;min-height:108px;}
+        .form-group select{appearance:none;cursor:pointer;}
+        .btn-submit{padding:14px 36px;background:var(--black);color:var(--white);font-size:0.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.3s;align-self:start;}
+        .btn-submit:hover{background:#333;}
+        .success-msg{display:none;padding:16px 20px;background:var(--black);color:var(--white);font-size:0.82rem;margin-top:12px;}
+        .book-hero{padding:120px 60px 0;background:var(--black);}
+        .book-hero-inner{max-width:1060px;margin:0 auto;padding-bottom:52px;border-bottom:1px solid #1e1e1e;}
+        .book-hero-eyebrow{font-size:0.65rem;letter-spacing:5px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+        .book-hero-eyebrow::before{content:'';width:24px;height:2px;background:var(--accent);}
+        .book-hero h1{font-size:clamp(2.4rem,5vw,4rem);font-weight:800;color:var(--white);letter-spacing:-2px;line-height:1.1;margin-bottom:16px;}
+        .book-hero-sub{font-size:0.95rem;color:#888;max-width:540px;line-height:1.85;}
+        .book-trust-bar{background:var(--black);padding:0 60px 44px;}
+        .book-trust-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding-top:2px;}
+        .trust-item{background:#111;padding:20px 18px;display:flex;align-items:center;gap:12px;}
+        .trust-icon{font-size:1.2rem;flex-shrink:0;}
+        .trust-text-main{font-size:0.8rem;font-weight:700;color:var(--white);margin-bottom:2px;}
+        .trust-text-sub{font-size:0.62rem;color:#555;}
+        .book-body{background:var(--light);padding:52px 60px 80px;}
+        .book-inner{max-width:1060px;margin:0 auto;}
+        .book-pkg-wrap{margin-bottom:16px;}
+        .book-bar-row{display:flex;gap:1px;height:32px;margin-bottom:1px;}
+        .bbar-seg{display:flex;align-items:center;justify-content:center;font-size:0.46rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:rgba(0,0,0,0.6);overflow:hidden;white-space:nowrap;cursor:pointer;transition:filter 0.2s;}
+        .bbar-seg.prem{background:rgba(245,166,35,0.75);flex:4;}
+        .bbar-seg.exec{background:rgba(100,160,255,0.65);flex:2;}
+        .bbar-seg.std{background:rgba(100,200,130,0.65);flex:1;}
+        .bbar-seg:hover{filter:brightness(1.1);}
+        .book-cards-row{display:flex;gap:1px;}
+        .slot-card{background:var(--white);border:2px solid var(--border);padding:28px 22px;position:relative;transition:all 0.2s;cursor:pointer;}
+        .slot-card.sc-premium{flex:4;}
+        .slot-card.sc-executive{flex:2;}
+        .slot-card.sc-std{flex:1;}
+        .slot-card:hover{border-color:#ccc;box-shadow:0 4px 20px rgba(0,0,0,0.07);}
+        .slot-card.chosen.sc-std{border-color:#2a7a45;}
+        .slot-card.chosen.sc-executive{border-color:#3355cc;}
+        .slot-card.chosen.sc-premium{border-color:var(--accent);}
+        .slot-card.chosen::after{content:'✓';position:absolute;top:10px;right:12px;width:20px;height:20px;font-size:0.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+        .slot-card.chosen.sc-std::after{background:#2a7a45;color:var(--white);}
+        .slot-card.chosen.sc-executive::after{background:#3355cc;color:var(--white);}
+        .slot-card.chosen.sc-premium::after{background:var(--accent);color:var(--black);}
+        .sc-badge{display:inline-block;padding:3px 10px;font-size:0.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;border:1px solid;}
+        .sc-premium .sc-badge{background:var(--accent-light);color:#b07400;border-color:var(--accent-border);}
+        .sc-executive .sc-badge{background:#eef3ff;color:#3355cc;border-color:#c5d0f0;}
+        .sc-std .sc-badge{background:#eef8f2;color:#2a7a45;border-color:#b8e0c6;}
+        .sc-name{font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:4px;}
+        .sc-duration{font-size:0.7rem;color:var(--mid-gray);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;}
+        .sc-price-block{margin-bottom:16px;}
+        .sc-price{font-size:1.8rem;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1;}
+        .sc-price sup{font-size:0.85rem;font-weight:400;vertical-align:super;}
+        .sc-price-sub{font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:3px;}
+        .sc-divider{height:1px;background:var(--border);margin:16px 0;}
+        .sc-features{list-style:none;display:flex;flex-direction:column;gap:8px;}
+        .sc-features li{display:flex;align-items:flex-start;gap:8px;font-size:0.76rem;color:var(--text-light);line-height:1.6;}
+        .sc-features li::before{content:'✓';font-weight:800;flex-shrink:0;margin-top:1px;}
+        .sc-premium .sc-features li::before{color:#b07400;}
+        .sc-executive .sc-features li::before{color:#3355cc;}
+        .sc-std .sc-features li::before{color:#2a7a45;}
+        .sc-features li strong{color:var(--text);font-weight:700;}
+        .slot-truth-box{background:var(--white);border:1.5px solid var(--border);padding:24px 28px;margin-bottom:28px;}
+        .stb-label{font-size:0.56rem;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-bottom:16px;}
+        .stb-rows{display:flex;gap:1px;}
+        .stb-row{padding:16px 14px;background:var(--light);flex:1;}
+        .stb-row.prem{flex:4;}
+        .stb-row.exec{flex:2;}
+        .stb-row.std{flex:1;}
+        .stb-pkg{font-size:0.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+        .stb-pkg.prem{color:#b07400;}
+        .stb-pkg.exec{color:#3355cc;}
+        .stb-pkg.std{color:#2a7a45;}
+        .stb-line{font-size:0.72rem;color:var(--text);line-height:1.6;margin-bottom:3px;}
+        .stb-note{font-size:0.62rem;color:#aaa;line-height:1.5;font-style:italic;}
+        .stb-bonus{font-size:0.64rem;color:#b07400;font-weight:600;margin-top:4px;}
+        .book-form-wrap{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;}
+        .step-label{font-size:0.58rem;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-bottom:12px;margin-top:28px;display:flex;align-items:center;gap:10px;}
+        .step-label::after{content:'';flex:1;height:1px;background:var(--border);}
+        .book-fields{display:grid;gap:12px;}
+        .bf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+        .bf-group{display:flex;flex-direction:column;gap:5px;}
+        .bf-group label{font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:#aaa;font-weight:600;}
+        .bf-group input,.bf-group select,.bf-group textarea{padding:12px 14px;background:var(--white);border:1.5px solid var(--border);color:var(--text);font-family:inherit;font-size:0.86rem;transition:border-color 0.2s;outline:none;}
+        .bf-group input:focus,.bf-group select:focus,.bf-group textarea:focus{border-color:var(--black);}
+        .bf-group textarea{resize:vertical;min-height:88px;}
+        .bf-group select{appearance:none;cursor:pointer;}
+        .btn-book-submit{width:100%;padding:16px;background:var(--black);color:var(--white);border:none;font-family:inherit;font-size:0.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;margin-top:4px;}
+        .btn-book-submit:hover{background:#333;}
+        .book-success{display:none;padding:14px 18px;background:#f0faf4;color:#2a7a45;font-size:0.82rem;margin-top:10px;border:1px solid #b8e0c6;}
+        .quote-panel{background:var(--white);border:1.5px solid var(--border);position:sticky;top:88px;box-shadow:0 4px 24px rgba(0,0,0,0.06);}
+        .qp-head{padding:20px 22px;border-bottom:1px solid var(--border);background:var(--black);}
+        .qp-head-eye{font-size:0.52rem;letter-spacing:4px;text-transform:uppercase;color:#555;margin-bottom:5px;}
+        .qp-head-title{font-size:0.95rem;font-weight:800;color:var(--white);}
+        .qp-empty{padding:36px 22px;text-align:center;}
+        .qp-empty-icon{font-size:1.8rem;opacity:0.25;margin-bottom:10px;}
+        .qp-empty-text{font-size:0.72rem;color:#bbb;line-height:1.7;}
+        .qp-body{padding:18px 22px;display:none;}
+        .qp-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:0.76rem;gap:12px;}
+        .qp-row:last-child{border-bottom:none;}
+        .qp-lbl{color:#aaa;}
+        .qp-val{color:var(--text);font-weight:600;text-align:right;}
+        .qp-airtime{margin:14px 0 4px;background:var(--accent-light);border:1px solid var(--accent-border);padding:14px 16px;}
+        .qp-airtime-head{font-size:0.52rem;letter-spacing:3px;text-transform:uppercase;color:#b07400;margin-bottom:10px;font-weight:700;}
+        .qp-at-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--accent-border);font-size:0.72rem;}
+        .qp-at-row:last-child{border-bottom:none;}
+        .qpa-l{color:#c8993a;}
+        .qpa-v{color:var(--text);font-weight:600;}
+        .qp-bonus-note{display:none;padding:10px 14px;background:var(--accent-light);border:1px solid var(--accent-border);font-size:0.7rem;color:#b07400;font-weight:600;line-height:1.6;margin-bottom:4px;}
+        .qp-bonus-note.show{display:block;}
+        .qp-total-wrap{padding:20px 22px;border-top:2px solid var(--black);background:var(--black);display:none;}
+        .qp-total-eye{font-size:0.52rem;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:6px;}
+        .qp-total-price{font-size:2.4rem;font-weight:800;color:var(--white);letter-spacing:-2px;line-height:1;}
+        .qp-total-sub{font-size:0.6rem;color:#555;margin-top:5px;}
+        @media(max-width:1024px){
+            .science-teaser-inner,.quality-grid,.about-grid,.contact-grid,.location-grid{grid-template-columns:1fr;gap:40px;}
+            .sci-media-grid{grid-template-columns:1fr;}
+            .sci-big-stats{grid-template-columns:1fr;}
+            .sci-compare-bar,.sci-insight-bar{grid-template-columns:1fr;}
+            .team-grid{grid-template-columns:1fr;max-width:440px;}
+            .board-card-body{grid-template-columns:1fr;}
+            .book-form-wrap{grid-template-columns:1fr;}
+            .quote-panel{position:static;}
+            .book-trust-inner{grid-template-columns:1fr 1fr;}
+            .philosophy-stats{grid-template-columns:1fr 1fr;}
+            .stb-rows{flex-direction:column;}
+            .book-cards-row{flex-direction:column;}
+            .slot-card.sc-premium,.slot-card.sc-executive,.slot-card.sc-std{flex:unset;}
+            .book-bar-row{display:none;}
+            .st-right{grid-template-columns:1fr 1fr;}
+            .st-stat-card:first-child{grid-column:span 2;}
+            .hero-stats{gap:2px;}
+        }
+        @media(max-width:768px){
+            nav{padding:0 20px;}
+            .nav-links{display:none;position:absolute;top:74px;left:0;width:100%;background:var(--black);flex-direction:column;padding:20px;gap:16px;}
+            .nav-links.open{display:flex;}
+            .hamburger{display:flex;}
+            .logo-mark{width:36px;height:36px;}
+            .hero-content{padding:0 22px;}
+            .hero-stats{padding:0 22px;flex-direction:column;align-items:stretch;}
+            .hero-stat{min-width:unset;}
+            .form-row,.bf-row{grid-template-columns:1fr;}
+            footer{flex-direction:column;gap:16px;text-align:center;}
+            .footer-right{text-align:center;}
+            .mystery-body{flex-direction:column;text-align:center;gap:20px;}
+            .boards-teaser{flex-direction:column;text-align:center;}
+            .boards-body,.boards-hero,.boards-teaser,.board-pricing{padding-left:22px;padding-right:22px;}
+            .book-body,.book-hero,.book-trust-bar{padding-left:22px;padding-right:22px;}
+            .book-trust-inner{grid-template-columns:1fr;}
+            .science-teaser,.quality-section,.philosophy-strip,.impressions-strip{padding-left:22px;padding-right:22px;}
+            .about-body,.team-section,.location-section,.contact-body{padding-left:22px;padding-right:22px;}
+            .philosophy-stats{grid-template-columns:1fr 1fr;}
+            .sci-hero,.sci-truth,.sci-media-section,.sci-categories{padding-left:22px;padding-right:22px;}
+            .sci-card{grid-template-columns:1fr;}
+            .sci-card-left{border-right:none;border-bottom:1px solid var(--border);padding:24px 22px 18px;}
+            .sci-card-facts{padding:18px 22px 26px;}
+            .sci-big-stats{grid-template-columns:1fr;}
+            .st-right{grid-template-columns:1fr;}
+            .st-stat-card:first-child{grid-column:span 1;}
+            .donut-wrap{flex-direction:column;align-items:flex-start;}
+            .donut-svg{width:100px;height:100px;}
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a class="logo" href="#" onclick="showPage('home');return false;">
+        <svg class="logo-mark" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="50" y="68" font-family="Arial Black,Arial,sans-serif" font-size="62" fill="white" font-weight="bold" text-anchor="middle">Z</text></svg>
+        <div><div class="logo-name">Black Zebra</div><div class="logo-sub">Billboard Advertising</div></div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" onclick="showPage('home');closeMenu();return false;">Home</a></li>
+        <li><a href="#" onclick="showPage('boards');closeMenu();return false;">Our Billboards</a></li>
+        <li><a href="#" onclick="showPage('science');closeMenu();return false;">Why Billboards</a></li>
+        <li><a href="#" onclick="showPage('about');closeMenu();return false;">About</a></li>
+        <li><a href="#" onclick="showPage('contact');closeMenu();return false;">Contact</a></li>
+        <li><a href="#" class="nav-cta" onclick="showPage('book');closeMenu();return false;">Book Now</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page active">
+    <div class="hero">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Premium Outdoor Advertising</p>
+            <h1>Where Presence<br>Becomes <span>Power</span></h1>
+            <a href="#" class="hero-btn" onclick="showPage('boards');return false;">Explore Our Billboards <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="display:inline;vertical-align:middle;"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="hero-stat-num">1.8M</div><div class="hero-stat-label">Monthly Impressions<br>Sea Point</div></div>
+            <div class="hero-stat"><div class="hero-stat-num">54m²</div><div class="hero-stat-label">Billboard Size<br>Digital LED</div></div>
+            <div class="hero-stat"><div class="hero-stat-num">12</div><div class="hero-stat-label">Premium Slots<br>Per Board</div></div>
+            <div class="hero-stat"><div class="hero-stat-num">19hrs</div><div class="hero-stat-label">Daily Operating<br>Hours</div></div>
+        </div>
+        <div class="scroll-indicator"><div class="scroll-line"></div><span class="scroll-text">Scroll</span></div>
+    </div>
+    <div class="science-teaser">
+        <div class="science-teaser-inner">
+            <div class="st-left">
+                <p class="st-eyebrow">The Proof Is In The Numbers</p>
+                <h2>Billboards<br><span>Outperform</span><br>Everything.</h2>
+                <p>Out-Of-Home advertising — OOH — is the science of putting your brand in the real world, where it cannot be ignored. Independent research proves it drives more searches, more site visits, and more sales than almost any other channel.</p>
+                <a href="#" class="st-cta" onclick="showPage('science');return false;">See The Full Science <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="display:inline;vertical-align:middle;"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+            <div class="st-right">
+                <div class="st-stat-card"><div class="st-stat-num">5.3×</div><div class="st-stat-label">More online searches driven than any other media channel</div></div>
+                <div class="st-stat-card"><div class="st-stat-num">5×</div><div class="st-stat-label">More website visits vs competing channels</div></div>
+                <div class="st-stat-card"><div class="st-stat-num">43%</div><div class="st-stat-label">OOH leads all media for brand awareness</div></div>
+                <div class="st-stat-card"><div class="st-stat-num">#1</div><div class="st-stat-label">Preferred media format — Millennials &amp; Gen Z</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="quality-section">
+        <div class="quality-inner">
+            <div class="quality-grid">
+                <div class="quality-text">
+                    <p class="section-eyebrow">Our Philosophy</p>
+                    <h2>We Don't Just Sell<br>Space. We <span>Curate</span> It.</h2>
+                    <p>At Black Zebra, we believe that great advertising starts with great placement. We are deliberately selective about where we position our billboards — choosing only locations that attract South Africa's most affluent, engaged, and influential audiences.</p>
+                    <p>We place your brand where it commands attention — in the neighbourhoods where decision-makers live, dine, exercise, and spend. Every location in our network is chosen for footfall quality, not just quantity.</p>
+                    <p>This is advertising built around your brand's reputation — not just its visibility.</p>
+                    <a href="#" class="quality-cta" onclick="showPage('boards');return false;">See Our Locations <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="display:inline;vertical-align:middle;"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                </div>
+                <div class="quality-pillars">
+                    <div class="quality-pillar"><div class="qp-icon">🎯</div><div><div class="qp-title">Location Intelligence</div><div class="qp-desc">Every site is researched for demographic profile, traffic patterns, and proximity to high-value amenities before we install a board.</div></div></div>
+                    <div class="quality-pillar"><div class="qp-icon">💎</div><div><div class="qp-title">Premium Audiences</div><div class="qp-desc">Our locations are surrounded by luxury apartments, premium gyms, fine dining, and professional districts — ensuring your message reaches high-income audiences.</div></div></div>
+                    <div class="quality-pillar"><div class="qp-icon">📊</div><div><div class="qp-title">Transparent Reporting</div><div class="qp-desc">You receive clear, honest reporting on your campaign's reach and performance — no guesswork, no inflated numbers.</div></div></div>
+                    <div class="quality-pillar"><div class="qp-icon">🤝</div><div><div class="qp-title">Limited Slots by Design</div><div class="qp-desc">We cap each billboard at 12 Premium slots. Scarcity is a feature — your brand is never lost in a sea of competitors.</div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="philosophy-strip">
+        <div class="philosophy-inner">
+            <p class="philosophy-sub">Premium outdoor advertising isn't about being everywhere — it's about being in exactly the right place. We choose our locations the way luxury brands choose their retail addresses: with precision, purpose, and an uncompromising eye for quality.</p>
+            <div class="philosophy-stats">
+                <div class="phil-stat"><div class="phil-stat-num">1</div><div class="phil-stat-label">Live Billboard<br>Sea Point</div></div>
+                <div class="phil-stat"><div class="phil-stat-num">1.8M</div><div class="phil-stat-label">Monthly<br>Impressions</div></div>
+                <div class="phil-stat"><div class="phil-stat-num">12</div><div class="phil-stat-label">Premium Slots<br>Per Board</div></div>
+                <div class="phil-stat"><div class="phil-stat-num">19hrs</div><div class="phil-stat-label">Daily Operating<br>Hours</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="impressions-strip">
+        <div class="impressions-number">1,800,000</div>
+        <p class="impressions-label">Predicted Monthly Impressions — Current Network</p>
+    </div>
+    <footer>
+        <div class="footer-logo"><svg style="width:48px;height:48px;flex-shrink:0;" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="50" y="68" font-family="Arial Black,Arial,sans-serif" font-size="62" fill="white" font-weight="bold" text-anchor="middle">Z</text></svg><div><div class="footer-logo-text">Black Zebra</div><p class="footer-tagline">Outdoor Billboard Advertising — South Africa</p></div></div>
+        <div class="footer-right"><p>© 2025 Black Zebra. All rights reserved.</p></div>
+    </footer>
+</div>
+
+<!-- SCIENCE -->
+<div id="science" class="page">
+    <div class="sci-hero">
+        <div class="sci-hero-pattern"></div>
+        <div class="sci-hero-inner">
+            <p class="sci-hero-eyebrow">The Science of Billboards</p>
+            <h1>The Real World<br>Is Where <span>Brands</span> Win</h1>
+            <p class="sci-hero-intro"><strong>OOH — Out-Of-Home advertising</strong> — is any advertising that reaches people while they are outside their homes. Billboards, street-facing displays, transit panels. It is the most ancient form of brand communication and, according to the most recent independent research, still one of the most effective tools available to marketers today. Unlike digital formats that fight for attention inside a screen, OOH occupies physical space in the real world — unmissable, unblockable, and always on.</p>
+            <div class="sci-source-pill"><span class="sci-source-text">Data Source: Dynata &amp; Insights for MOVE — 2022 OOH Effectiveness Study</span></div>
+        </div>
+    </div>
+    <div class="sci-truth">
+        <div class="sci-truth-inner">
+            <p class="sci-truth-label">Independent Research Doesn't Lie</p>
+            <h2 class="sci-truth-headline">The Numbers<br>Speak For Themselves</h2>
+            <p class="sci-truth-sub">Every figure below comes from an independently commissioned global study measuring OOH performance against every other major advertising channel. Not estimates. Not projections. Verified results.</p>
+            <div class="sci-big-stats">
+                <div class="sci-big-stat s1"><div class="sci-big-num">5.3<span>×</span></div><div class="sci-big-stat-label"><strong>Online Search Lift</strong>Brands on OOH generate 5.3× more online searches than any other media format tested</div></div>
+                <div class="sci-big-stat s2"><div class="sci-big-num">5<span>×</span></div><div class="sci-big-stat-label"><strong>Website Traffic Multiplier</strong>Audiences exposed to OOH are 5× more likely to visit a brand's website than those reached through competing channels</div></div>
+                <div class="sci-big-stat s3"><div class="sci-big-num">43<span>%</span></div><div class="sci-big-stat-label"><strong>Awareness Rate — Highest Recorded</strong>OOH registers 43% brand awareness. TV achieves 33%. Social media 32%. No other format comes close</div></div>
+            </div>
+            <div class="sci-compare-bar">
+                <div class="sci-compare"><div class="sci-compare-icon">📵</div><div class="sci-compare-text"><strong>Zero ways to block it.</strong>Every other advertising format can be muted, skipped, scrolled past, or blocked by software. A billboard has none of those vulnerabilities. It occupies real physical space and demands attention from every single person who walks or drives past — without exception.</div></div>
+                <div class="sci-compare"><div class="sci-compare-icon">📍</div><div class="sci-compare-text"><strong>The right place makes all the difference.</strong>A Black Zebra billboard places your brand inside the daily routine of South Africa's most influential consumers, in premium neighbourhoods where purchasing decisions are made every single day.</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="sci-media-section">
+        <div class="sci-media-inner">
+            <div class="sci-media-header">
+                <p class="sci-media-eyebrow">Head-To-Head Media Comparison</p>
+                <h2 class="sci-media-title">OOH Measured Against<br>Every Major Media Channel</h2>
+                <p class="sci-media-sub">Independent research measured three critical factors that determine how effective any advertising medium truly is. OOH leads or matches the best in every single one.</p>
+            </div>
+            <div class="sci-media-grid">
+                <div class="donut-col">
+                    <div class="donut-card">
+                        <div class="donut-card-title">Brand Awareness</div>
+                        <div class="donut-wrap">
+                            <svg viewBox="0 0 200 200" class="donut-svg">
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#2a2a2a" stroke-width="30"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#ff6b00" stroke-width="30" stroke-dasharray="108 251.2" stroke-dashoffset="62.8" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#ffffff" stroke-width="30" stroke-dasharray="83 251.2" stroke-dashoffset="-45.2" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#777777" stroke-width="30" stroke-dasharray="80 251.2" stroke-dashoffset="-128.2" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#333333" stroke-width="30" stroke-dasharray="65 251.2" stroke-dashoffset="-208.2" transform="rotate(-90 100 100)"/>
+                                <text x="100" y="93" text-anchor="middle" fill="white" font-size="26" font-weight="800" font-family="Helvetica Neue,Arial,sans-serif">43%</text>
+                                <text x="100" y="113" text-anchor="middle" fill="#ff6b00" font-size="10" font-weight="700" font-family="Helvetica Neue,Arial,sans-serif" letter-spacing="1">OOH</text>
+                            </svg>
+                            <div class="donut-legend">
+                                <div class="dl-row"><span class="dl-dot" style="background:#ff6b00;"></span><span class="dl-label">OOH</span><span class="dl-val" style="color:#ff6b00;">43% ★</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#ffffff;outline:1px solid #555;outline-offset:1px;"></span><span class="dl-label">TV</span><span class="dl-val">33%</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#777777;"></span><span class="dl-label">Social Media</span><span class="dl-val">32%</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#444444;outline:1px solid #666;outline-offset:1px;"></span><span class="dl-label">Online Video</span><span class="dl-val">26%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="donut-card">
+                        <div class="donut-card-title">Brand Consideration</div>
+                        <div class="donut-wrap">
+                            <svg viewBox="0 0 200 200" class="donut-svg">
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#2a2a2a" stroke-width="30"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#3b9eff" stroke-width="30" stroke-dasharray="58 251.2" stroke-dashoffset="62.8" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#ffffff" stroke-width="30" stroke-dasharray="60 251.2" stroke-dashoffset="-95.2" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#777777" stroke-width="30" stroke-dasharray="60 251.2" stroke-dashoffset="-155.2" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#333333" stroke-width="30" stroke-dasharray="53 251.2" stroke-dashoffset="-215.2" transform="rotate(-90 100 100)"/>
+                                <text x="100" y="93" text-anchor="middle" fill="white" font-size="26" font-weight="800" font-family="Helvetica Neue,Arial,sans-serif">23%</text>
+                                <text x="100" y="113" text-anchor="middle" fill="#3b9eff" font-size="10" font-weight="700" font-family="Helvetica Neue,Arial,sans-serif" letter-spacing="1">OOH</text>
+                            </svg>
+                            <div class="donut-legend">
+                                <div class="dl-row"><span class="dl-dot" style="background:#3b9eff;"></span><span class="dl-label">OOH</span><span class="dl-val" style="color:#3b9eff;">23%</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#ffffff;outline:1px solid #555;outline-offset:1px;"></span><span class="dl-label">TV</span><span class="dl-val">24%</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#777777;"></span><span class="dl-label">Social Media</span><span class="dl-val">24%</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#444444;outline:1px solid #666;outline-offset:1px;"></span><span class="dl-label">Online Video</span><span class="dl-val">21%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="donut-card">
+                        <div class="donut-card-title">Purchase Intent</div>
+                        <div class="donut-wrap">
+                            <svg viewBox="0 0 200 200" class="donut-svg">
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#2a2a2a" stroke-width="30"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#00c875" stroke-width="30" stroke-dasharray="45 251.2" stroke-dashoffset="62.8" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#ffffff" stroke-width="30" stroke-dasharray="45 251.2" stroke-dashoffset="-82.2" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#777777" stroke-width="30" stroke-dasharray="50 251.2" stroke-dashoffset="-127.2" transform="rotate(-90 100 100)"/>
+                                <circle cx="100" cy="100" r="70" fill="none" stroke="#333333" stroke-width="30" stroke-dasharray="33 251.2" stroke-dashoffset="-177.2" transform="rotate(-90 100 100)"/>
+                                <text x="100" y="93" text-anchor="middle" fill="white" font-size="26" font-weight="800" font-family="Helvetica Neue,Arial,sans-serif">18%</text>
+                                <text x="100" y="113" text-anchor="middle" fill="#00c875" font-size="10" font-weight="700" font-family="Helvetica Neue,Arial,sans-serif" letter-spacing="1">OOH</text>
+                            </svg>
+                            <div class="donut-legend">
+                                <div class="dl-row"><span class="dl-dot" style="background:#00c875;"></span><span class="dl-label">OOH</span><span class="dl-val" style="color:#00c875;">18%</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#ffffff;outline:1px solid #555;outline-offset:1px;"></span><span class="dl-label">TV</span><span class="dl-val">18%</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#777777;"></span><span class="dl-label">Social Media</span><span class="dl-val">20%</span></div>
+                                <div class="dl-row"><span class="dl-dot" style="background:#444444;outline:1px solid #666;outline-offset:1px;"></span><span class="dl-label">Online Video</span><span class="dl-val">13%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="compare-facts">
+                    <div class="compare-fact cf-awareness">
+                        <div class="cf-tag">Brand Awareness</div>
+                        <div class="cf-heading">OOH builds brand recognition faster than any other medium</div>
+                        <div class="cf-body">At <strong>43%</strong>, OOH outperforms every other advertising format for making people aware your brand exists. TV comes in at 33%, social media at 32%, online video at 26%. No other medium tested even comes close.</div>
+                    </div>
+                    <div class="compare-fact cf-consideration">
+                        <div class="cf-tag">Brand Consideration</div>
+                        <div class="cf-heading">OOH keeps you competitive at every stage of the decision</div>
+                        <div class="cf-body">With a <strong>23% consideration rate</strong>, OOH performs level with the world's largest platforms — TV and social media both sit at 24%. OOH holds its own against channels with billion-dollar infrastructure, simply by showing up in the real world, repeatedly, without asking for permission.</div>
+                    </div>
+                    <div class="compare-fact cf-purchase">
+                        <div class="cf-tag">Purchase Intent</div>
+                        <div class="cf-heading">OOH drives real purchase decisions — not just impressions</div>
+                        <div class="cf-body">An <strong>18% purchase intent rate</strong> — level with TV, and well ahead of online video at just 13%. This is the measure that matters most: does seeing the ad make someone more likely to actually buy? OOH delivers a clear, research-backed yes.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sci-categories">
+        <div class="sci-cat-inner">
+            <div class="sci-cat-header">
+                <p class="sci-cat-eyebrow">Breaking It Down</p>
+                <h2 class="sci-cat-title">Four Reasons OOH Belongs<br>In Your Media Mix</h2>
+            </div>
+            <div class="sci-cards">
+                <div class="sci-card">
+                    <div class="sci-card-left"><div class="sci-card-step">01 · Awareness</div><div class="sci-card-heading">Nothing Gets You<br>Noticed Like This</div></div>
+                    <ul class="sci-card-facts">
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Rated the <strong>top-performing media format</strong> for brand awareness — across every age group and income level tested</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Delivers broader, more consistent reach than <strong>any other advertising channel currently available</strong></div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Ranked the <strong>number 1 preferred media format</strong> by Millennials and Gen Z — two generations that actively avoid traditional advertising</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Physically present in the environment — <strong>impossible to skip, block, or scroll away from</strong></div></li>
+                    </ul>
+                </div>
+                <div class="sci-card">
+                    <div class="sci-card-left"><div class="sci-card-step">02 · Consideration</div><div class="sci-card-heading">A Billboard Sends<br>People Online</div></div>
+                    <ul class="sci-card-facts">
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Brands on OOH see <strong>over five times more online searches</strong> generated compared to brands using other media formats</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">OOH exposure leads to <strong>five times more website visits</strong> than equivalent spend on competing channels</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">One well-placed billboard can <strong>generate thousands of digital touchpoints</strong> every single month — at no extra cost</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Physical presence in the real world creates <strong>brand trust that digital-only advertising cannot replicate</strong></div></li>
+                    </ul>
+                </div>
+                <div class="sci-card">
+                    <div class="sci-card-left"><div class="sci-card-step">03 · Conversion</div><div class="sci-card-heading">It Moves People<br>From Seeing to Buying</div></div>
+                    <ul class="sci-card-facts">
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Delivers <strong>higher brand awareness scores</strong> than any format tested — and awareness is the engine that powers every sale</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Conversion rates sit <strong>level with social media</strong> — without the algorithm, the bidding war, or the ad fatigue</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Effective across <strong>every step of the journey — from a complete stranger to a ready-to-buy customer</strong></div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Amplifies your existing digital activity — brands running OOH alongside digital see their <strong>entire media mix perform better</strong></div></li>
+                    </ul>
+                </div>
+                <div class="sci-card">
+                    <div class="sci-card-left"><div class="sci-card-step">04 · Cost Efficiency</div><div class="sci-card-heading">Maximum Reach.<br>Minimum Waste.</div></div>
+                    <ul class="sci-card-facts">
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Delivers one of the <strong>lowest costs per thousand impressions</strong> of any media format — including TV, paid social, and programmatic</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">No algorithm decides who sees it. No budget wasted on irrelevant clicks. Just <strong>guaranteed mass exposure, every single day</strong></div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">The rare combination of <strong>high impact and low cost per contact</strong> — a pairing almost impossible to find in any other channel</div></li>
+                        <li><div class="sci-fact-bullet"></div><div class="sci-fact-text">Put simply — <strong>no other format puts your brand in front of more of the right people, for less money per impression</strong></div></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sci-insight-bar">
+                <div class="sci-insight"><div class="sci-insight-icon">📵</div><div class="sci-insight-text"><strong>Zero ways to block it.</strong> Every other format can be muted, skipped, or filtered out. A billboard cannot. It is woven into the physical environment — present, visible, and impossible to avoid.</div></div>
+                <div class="sci-insight"><div class="sci-insight-icon">📍</div><div class="sci-insight-text"><strong>The right place changes everything.</strong> A Black Zebra billboard positions your brand inside the daily lives of South Africa's most influential consumers — in premium neighbourhoods where decisions are made every single day.</div></div>
+            </div>
+        </div>
+    </div>
+    <div style="background:var(--white);padding:72px 60px;text-align:center;">
+        <p style="font-size:0.62rem;letter-spacing:5px;text-transform:uppercase;color:var(--mid-gray);margin-bottom:16px;">Put the science to work for your brand</p>
+        <h2 style="font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;color:var(--black);letter-spacing:-1px;line-height:1.15;margin-bottom:28px;">Your audience is already out there.<br>Your billboard should be too.</h2>
+        <a href="#" class="st-cta" onclick="showPage('book');return false;">Book Your Space Now →</a>
+    </div>
+    <footer>
+        <div class="footer-logo"><svg style="width:48px;height:48px;flex-shrink:0;" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="50" y="68" font-family="Arial Black,Arial,sans-serif" font-size="62" fill="white" font-weight="bold" text-anchor="middle">Z</text></svg><div><div class="footer-logo-text">Black Zebra</div><p class="footer-tagline">Outdoor Billboard Advertising — South Africa</p></div></div>
+        <div class="footer-right"><p>© 2025 Black Zebra. All rights reserved.</p></div>
+    </footer>
+</div>
+
+<!-- BILLBOARDS -->
+<div id="boards" class="page">
+    <div class="boards-hero">
+        <div class="boards-hero-pattern"></div>
+        <p class="hero-eyebrow" style="margin-bottom:14px;position:relative;z-index:1;">Our Network</p>
+        <h1>Our <span>Billboard</span><br>Locations</h1>
+        <p class="boards-hero-sub">Premium outdoor advertising positions across South Africa — strategically placed where your audience already is.</p>
+    </div>
+    <div class="boards-body">
+        <div class="board-card">
+            <div class="board-card-header" onclick="toggleBoard('seapoint')">
+                <div><div class="board-location-name">Sea Point</div><div class="board-address">323 Main Road, Sea Point, Cape Town</div></div>
+                <div style="display:flex;align-items:center;gap:14px;"><div class="board-status-chip">● Live Now</div><div id="seapoint-arrow" style="color:white;font-size:0.9rem;transition:transform 0.3s;">▼</div></div>
+            </div>
+            <div class="board-expandable open" id="seapoint-body">
+                <div class="board-card-body">
+                    <div class="board-image">
+                        <div class="board-image-bg"></div><div class="board-image-overlay"></div>
+                        <div class="billboard-mockup"><svg viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="50" y="68" font-family="Arial Black,Arial,sans-serif" font-size="62" fill="white" font-weight="bold" text-anchor="middle">Z</text></svg><div class="mockup-text">Black Zebra</div><div class="mockup-sub">Your Brand Here</div></div>
+                        <div class="board-image-label">323 Main Road, Sea Point</div>
+                    </div>
+                    <div class="board-details">
+                        <div>
+                            <div class="board-specs">
+                                <div class="spec-item"><p class="spec-label">Board Size</p><p class="spec-value">54 m²</p></div>
+                                <div class="spec-item"><p class="spec-label">Monthly Impressions</p><p class="spec-value">1,800,000</p></div>
+                                <div class="spec-item"><p class="spec-label">Premium Slots</p><p class="spec-value">12 × 60s</p></div>
+                                <div class="spec-item"><p class="spec-label">Clientele</p><p class="spec-value">High Income</p></div>
+                                <div class="spec-item"><p class="spec-label">Cycle</p><p class="spec-value">720s / 12 min</p></div>
+                                <div class="spec-item"><p class="spec-label">Format</p><p class="spec-value">Digital LED</p></div>
+                            </div>
+                            <p class="board-summary">Sea Point is one of Cape Town's most prestigious coastal neighbourhoods — home to high-income residents, young professionals, and a thriving tourist economy. Its bustling Main Road corridor is lined with restaurants, gyms, coffee shops, and retail stores, flanked by premium apartments and the world-famous beachfront promenade.</p>
+                            <div class="board-nearby"><p class="nearby-title">Nearby</p><div class="nearby-tags"><span class="nearby-tag">Gyms &amp; Fitness</span><span class="nearby-tag">Coffee Shops</span><span class="nearby-tag">Restaurants</span><span class="nearby-tag">Retail Stores</span><span class="nearby-tag">Gas Stations</span><span class="nearby-tag">Luxury Apartments</span><span class="nearby-tag">Hotels</span><span class="nearby-tag">Medical Suites</span><span class="nearby-tag">Beach &amp; Promenade</span><span class="nearby-tag">Banks</span></div></div>
+                        </div>
+                        <a href="#" class="board-cta" onclick="showPage('book');return false;">Book This Billboard →</a>
+                    </div>
+                </div>
+                <div class="board-pricing">
+                    <p class="bp-title">Advertising Packages — Sea Point</p>
+                    <div class="bp-visual-label">One 60-Second Slot — How It Is Shared</div>
+                    <div class="bp-bar"><div class="bp-seg prem">Premium · Full 60s</div><div class="bp-seg exec">Executive · 30s</div><div class="bp-seg exec">Executive · 30s</div><div class="bp-seg std">15s</div><div class="bp-seg std">15s</div><div class="bp-seg std">15s</div><div class="bp-seg std">15s</div></div>
+                    <div class="bp-cards">
+                        <div class="bp-card prem-card"><div class="bp-card-pkg">Premium</div><div class="bp-card-duration">Full 60s · Uninterrupted</div><div class="bp-card-price"><sup>R</sup>90,000</div><div class="bp-card-price-sub">per month</div></div>
+                        <div class="bp-card exec-card"><div class="bp-card-pkg">Executive</div><div class="bp-card-duration">30s · Half slot</div><div class="bp-card-price"><sup>R</sup>70,000</div><div class="bp-card-price-sub">per month</div></div>
+                        <div class="bp-card std-card"><div class="bp-card-pkg">Standard</div><div class="bp-card-duration">15s · Quarter slot</div><div class="bp-card-price"><sup>R</sup>50,000</div><div class="bp-card-price-sub">per month</div></div>
+                    </div>
+                    <div class="bp-book-row">
+                        <a href="#" class="bp-book-btn" onclick="preSelect('premium');showPage('book');return false;">Book Premium →</a>
+                        <a href="#" class="bp-book-btn" onclick="preSelect('executive');showPage('book');return false;">Book Executive →</a>
+                        <a href="#" class="bp-book-btn" onclick="preSelect('standard');showPage('book');return false;">Book Standard →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="board-card">
+            <div class="board-card-header"><div><div class="board-location-name">Location 02</div><div class="board-address">South Africa · Classified</div></div><div class="board-status-chip secret">◈ Classified</div></div>
+            <div class="mystery-body"><div class="mystery-icon-wrap">🔍</div><div class="mystery-text-wrap"><p class="mystery-tag">Coming to the Network</p><h3 class="mystery-title">Something Big is Coming</h3><p class="mystery-desc">A prime high-traffic location — not ready to reveal just yet.</p><p class="mystery-hint">Stay tuned — details dropping soon</p></div></div>
+        </div>
+        <div class="board-card">
+            <div class="board-card-header"><div><div class="board-location-name">Location 03</div><div class="board-address">South Africa · Classified</div></div><div class="board-status-chip secret">◈ Classified</div></div>
+            <div class="mystery-body"><div class="mystery-icon-wrap">🗺️</div><div class="mystery-text-wrap"><p class="mystery-tag">Expanding the Network</p><h3 class="mystery-title">Another One on the Map</h3><p class="mystery-desc">Locked in and in the works. Extraordinary footfall, exactly the right audience.</p><p class="mystery-hint">Be the first to know — contact us</p></div></div>
+        </div>
+    </div>
+    <div class="boards-teaser"><div class="boards-teaser-text"><h3>The Network is Growing.</h3><p>Black Zebra is building a network of premium billboard locations across South Africa — starting in Cape Town and expanding nationwide.</p></div><a href="#" class="boards-teaser-btn" onclick="showPage('contact');return false;">Get Notified</a></div>
+    <footer><div class="footer-logo"><svg style="width:48px;height:48px;flex-shrink:0;" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="50" y="68" font-family="Arial Black,Arial,sans-serif" font-size="62" fill="white" font-weight="bold" text-anchor="middle">Z</text></svg><div><div class="footer-logo-text">Black Zebra</div><p class="footer-tagline">Outdoor Billboard Advertising — South Africa</p></div></div><div class="footer-right"><p>© 2025 Black Zebra. All rights reserved.</p></div></footer>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="page">
+    <div class="about-hero">
+        <div class="about-hero-pattern"></div>
+        <p class="hero-eyebrow" style="margin-bottom:16px;position:relative;z-index:1;">About Us</p>
+        <h1>Bold <span>Advertising.</span><br>Real Results.</h1>
+        <p class="about-hero-sub">We're a team of strategists and entrepreneurs united by one mission: revolutionising outdoor advertising across South Africa.</p>
+    </div>
+    <div class="about-body">
+        <div class="about-grid">
+            <div class="about-text">
+                <h2>Who We Are</h2>
+                <p>Black Zebra is a premium outdoor advertising company on a mission to transform how brands connect with people. We combine smart location strategy, prime placements, and bold creative thinking to deliver advertising that doesn't just get seen — it gets remembered.</p>
+                <p>We are building a network of high-impact billboard locations across South Africa, each one carefully chosen to place your brand in front of the right audience at exactly the right moment.</p>
+                <p>At Black Zebra, we believe the best partnerships are built on trust, transparency, and shared ambition. We are at the start of an exciting journey, and we are looking for brands ready to grow with us.</p>
+            </div>
+            <div class="about-values">
+                <div class="value-item"><p class="value-number">01</p><h4 class="value-title">Entrepreneurial Spirit</h4><p class="value-desc">We started Black Zebra from the ground up — fuelled by ambition and a genuine belief that outdoor advertising in South Africa can be done better.</p></div>
+                <div class="value-item"><p class="value-number">02</p><h4 class="value-title">Built for Partnership</h4><p class="value-desc">Every client is a partner. Your success is our success. Committed to growing alongside you and delivering measurable impact.</p></div>
+                <div class="value-item"><p class="value-number">03</p><h4 class="value-title">Ready to Deliver</h4><p class="value-desc">The right locations, the right team, and the right approach — ready to transform how your brand is seen across South Africa.</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="team-section">
+        <div class="section-header"><p class="section-eyebrow">The People Behind It</p><h2 class="section-title">Meet the Team</h2><div class="section-line"></div></div>
+        <div class="team-intro"><p>Founded by two BCom Accounting graduates from the University of Stellenbosch, Black Zebra was built on entrepreneurial ambition and a shared belief that outdoor advertising in South Africa deserves a bolder, smarter approach.</p></div>
+        <div class="team-grid">
+            <div class="team-card"><div class="team-avatar"><span class="team-initials">PZ</span></div><p class="team-role">Co-Founder</p><h3 class="team-name">Paul Zietsman</h3><div class="team-divider"></div><p class="team-desc">BCom Accounting graduate from Stellenbosch. With a sharp analytical mind and an unstoppable entrepreneurial drive, Paul is committed to building a company that delivers real value for every client on the network.</p></div>
+            <div class="team-card"><div class="team-avatar"><span class="team-initials">ZV</span></div><p class="team-role">Co-Founder</p><h3 class="team-name">Zack Daniel<br>van Zyl</h3><div class="team-divider"></div><p class="team-desc">BCom Accounting graduate from Stellenbosch. Driven by data, strategy, and a bold vision for what outdoor advertising can become across South Africa.</p></div>
+        </div>
+    </div>
+    <div class="location-section">
+        <div class="location-inner">
+            <div class="location-grid">
+                <div class="location-text">
+                    <p class="section-eyebrow" style="text-align:left;margin-bottom:12px;">Flagship Location</p>
+                    <h2>323 Main Road,<br>Sea Point</h2>
+                    <p>Our first billboard sits at one of Cape Town's most prestigious coastal addresses. 1,800,000 monthly impressions. And this is only the beginning — we are expanding across South Africa.</p>
+                    <div class="location-address-box"><div class="address-icon">📍</div><div><p class="address-label">Billboard Address</p><p class="address-value">323 Main Road, Sea Point, Cape Town</p></div></div>
+                </div>
+                <div class="location-highlights">
+                    <div class="location-highlight"><div class="highlight-dot"></div><p class="highlight-text">323 Main Road — prime arterial route</p></div>
+                    <div class="location-highlight"><div class="highlight-dot"></div><p class="highlight-text">High-income demographic</p></div>
+                    <div class="location-highlight"><div class="highlight-dot"></div><p class="highlight-text">Exceptional multi-angle visibility</p></div>
+                    <div class="location-highlight"><div class="highlight-dot"></div><p class="highlight-text">1,800,000 predicted monthly impressions</p></div>
+                    <div class="location-highlight"><div class="highlight-dot"></div><p class="highlight-text">Sea Point promenade pedestrian traffic</p></div>
+                    <div class="location-highlight"><div class="highlight-dot"></div><p class="highlight-text">Premium coastal neighbourhood</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer><div class="footer-logo"><svg style="width:48px;height:48px;flex-shrink:0;" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="50" y="68" font-family="Arial Black,Arial,sans-serif" font-size="62" fill="white" font-weight="bold" text-anchor="middle">Z</text></svg><div><div class="footer-logo-text">Black Zebra</div><p class="footer-tagline">Outdoor Billboard Advertising — South Africa</p></div></div><div class="footer-right"><p>© 2025 Black Zebra. All rights reserved.</p></div></footer>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+    <div class="contact-hero">
+        <p class="hero-eyebrow" style="margin-bottom:16px;">Get In Touch</p>
+        <h1>Let's Start a<br>Conversation</h1>
+    </div>
+    <div class="contact-body">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Contact Details</h3>
+                <div class="contact-detail"><p class="contact-detail-label">Email</p><p class="contact-detail-value">info@blackzebra.co.za</p></div>
+                <div class="contact-detail"><p class="contact-detail-label">Phone</p><p class="contact-detail-value">+27 (0) 21 000 0000</p></div>
+                <div class="contact-detail"><p class="contact-detail-label">Office Hours</p><p class="contact-detail-value">Mon – Fri: 08:00 – 17:00</p></div>
+                <div class="contact-detail"><p class="contact-detail-label">Billboard Address</p><p class="contact-detail-value">323 Main Road, Sea Point, Cape Town</p></div>
+                <div class="contact-detail"><p class="contact-detail-label">Co-Founders</p><p class="contact-detail-value">Paul Zietsman<br>Zack Daniel van Zyl</p></div>
+            </div>
+            <form class="contact-form" onsubmit="submitContact(event)">
+                <div class="form-row"><div class="form-group"><label>Full Name</label><input type="text" placeholder="Your name" required></div><div class="form-group"><label>Company</label><input type="text" placeholder="Company name"></div></div>
+                <div class="form-row"><div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" required></div><div class="form-group"><label>Phone</label><input type="tel" placeholder="+27"></div></div>
+                <div class="form-group"><label>Interest</label><select><option value="">Select...</option><option>Premium — R90,000/month (Full 60s slot)</option><option>Executive — R70,000/month (Half 30s slot)</option><option>Standard — R50,000/month (Quarter 15s slot)</option><option>Notify Me — New Locations</option><option>General Enquiry</option></select></div>
+                <div class="form-group"><label>Message</label><textarea placeholder="Tell us about your advertising goals..."></textarea></div>
+                <button type="submit" class="btn-submit">Send Message</button>
+                <div class="success-msg" id="contactSuccess">✓ &nbsp; Message sent. We'll be in touch shortly.</div>
+            </form>
+        </div>
+    </div>
+    <footer><div class="footer-logo"><svg style="width:48px;height:48px;flex-shrink:0;" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="50" y="68" font-family="Arial Black,Arial,sans-serif" font-size="62" fill="white" font-weight="bold" text-anchor="middle">Z</text></svg><div><div class="footer-logo-text">Black Zebra</div><p class="footer-tagline">Outdoor Billboard Advertising — South Africa</p></div></div><div class="footer-right"><p>© 2025 Black Zebra. All rights reserved.</p></div></footer>
+</div>
+
+<!-- BOOK -->
+<div id="book" class="page">
+    <div class="book-hero">
+        <div class="book-hero-inner">
+            <div class="book-hero-eyebrow">Reserve Your Space</div>
+            <h1>Book Your<br>Billboard Space</h1>
+            <p class="book-hero-sub">Choose your package, fill in your details, and we'll confirm your booking within 24 hours.</p>
+        </div>
+    </div>
+    <div class="book-trust-bar">
+        <div class="book-trust-inner">
+            <div class="trust-item"><div class="trust-icon">⚡</div><div><div class="trust-text-main">Confirmed in 24 hrs</div><div class="trust-text-sub">Fast turnaround</div></div></div>
+            <div class="trust-item"><div class="trust-icon">📍</div><div><div class="trust-text-main">Sea Point · Live Now</div><div class="trust-text-sub">323 Main Road, Cape Town</div></div></div>
+            <div class="trust-item"><div class="trust-icon">🎯</div><div><div class="trust-text-main">No Hidden Fees</div><div class="trust-text-sub">Transparent pricing</div></div></div>
+        </div>
+    </div>
+    <div class="book-body">
+        <div class="book-inner">
+            <div class="step-label" style="margin-top:0;">Step 1 — Choose Your Package</div>
+            <div class="book-pkg-wrap">
+                <div class="book-bar-row">
+                    <div class="bbar-seg prem" onclick="bookPkg('premium')">Premium · 60s (Full Slot)</div>
+                    <div class="bbar-seg exec" onclick="bookPkg('executive')">Executive · 30s</div>
+                    <div class="bbar-seg exec" onclick="bookPkg('executive')">Executive · 30s</div>
+                    <div class="bbar-seg std" onclick="bookPkg('standard')">15s</div>
+                    <div class="bbar-seg std" onclick="bookPkg('standard')">15s</div>
+                    <div class="bbar-seg std" onclick="bookPkg('standard')">15s</div>
+                    <div class="bbar-seg std" onclick="bookPkg('standard')">15s</div>
+                </div>
+                <div class="book-cards-row">
+                    <div class="slot-card sc-premium" id="bpkg-premium" onclick="bookPkg('premium')">
+                        <div class="sc-badge">Full Slot · Premium ★</div>
+                        <div class="sc-name">Premium</div>
+                        <div class="sc-duration">60 Seconds · Uninterrupted</div>
+                        <div class="sc-price-block"><div class="sc-price"><sup>R</sup>90,000</div><div class="sc-price-sub">per month</div></div>
+                        <div class="sc-divider"></div>
+                        <ul class="sc-features">
+                            <li>Full 60s slot — yours alone</li>
+                            <li>Plays every 12-minute cycle</li>
+                            <li><strong>95 plays per day</strong></li>
+                            <li>Fills any unsold slots free</li>
+                            <li>1,800,000 monthly impressions</li>
+                        </ul>
+                    </div>
+                    <div class="slot-card sc-executive" id="bpkg-executive" onclick="bookPkg('executive')">
+                        <div class="sc-badge">½ Slot · Executive</div>
+                        <div class="sc-name">Executive</div>
+                        <div class="sc-duration">30 Seconds · Half Slot</div>
+                        <div class="sc-price-block"><div class="sc-price"><sup>R</sup>70,000</div><div class="sc-price-sub">per month</div></div>
+                        <div class="sc-divider"></div>
+                        <ul class="sc-features">
+                            <li>30s guaranteed per cycle</li>
+                            <li>Plays every 12-minute cycle</li>
+                            <li><strong>95 plays per day</strong></li>
+                            <li>Remaining 30s: 2nd client or fill</li>
+                            <li>1,800,000 monthly impressions</li>
+                        </ul>
+                    </div>
+                    <div class="slot-card sc-std" id="bpkg-standard" onclick="bookPkg('standard')">
+                        <div class="sc-badge">¼ Slot · Standard</div>
+                        <div class="sc-name">Standard</div>
+                        <div class="sc-duration">15 Seconds · Quarter Slot</div>
+                        <div class="sc-price-block"><div class="sc-price"><sup>R</sup>50,000</div><div class="sc-price-sub">per month</div></div>
+                        <div class="sc-divider"></div>
+                        <ul class="sc-features">
+                            <li>15s guaranteed per cycle</li>
+                            <li>Plays every 12-minute cycle</li>
+                            <li><strong>95 plays per day</strong></li>
+                            <li>Remaining 45s: other clients</li>
+                            <li>1,800,000 monthly impressions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slot-truth-box">
+                <div class="stb-label">What You Actually Get — Screen Time Per Cycle</div>
+                <div class="stb-rows">
+                    <div class="stb-row prem"><div class="stb-pkg prem">Premium</div><div class="stb-line">✔ <strong>60s guaranteed</strong> per cycle</div><div class="stb-bonus">+ Fills all unsold space free</div></div>
+                    <div class="stb-row exec"><div class="stb-pkg exec">Executive</div><div class="stb-line">✔ <strong>30s guaranteed</strong> per cycle</div><div class="stb-note">Remaining 30s: 2nd client or Premium fill</div></div>
+                    <div class="stb-row std"><div class="stb-pkg std">Standard</div><div class="stb-line">✔ <strong>15s guaranteed</strong> per cycle</div><div class="stb-note">Remaining 45s: other clients or fill</div></div>
+                </div>
+            </div>
+            <div class="book-form-wrap">
+                <div>
+                    <div class="step-label">Step 2 — Your Details</div>
+                    <form class="book-fields" onsubmit="submitBook(event)">
+                        <div class="bf-row">
+                            <div class="bf-group"><label>Full Name</label><input type="text" placeholder="Your name" required></div>
+                            <div class="bf-group"><label>Company Name</label><input type="text" placeholder="Company name" required></div>
+                        </div>
+                        <div class="bf-row">
+                            <div class="bf-group"><label>Email Address</label><input type="email" placeholder="your@email.com" required></div>
+                            <div class="bf-group"><label>Phone Number</label><input type="tel" placeholder="+27" required></div>
+                        </div>
+                        <div class="bf-group"><label>Campaign Start Date</label><input type="date" required></div>
+                        <div class="bf-group"><label>Additional Notes</label><textarea placeholder="Any specific requirements or questions..."></textarea></div>
+                        <button type="submit" class="btn-book-submit">Submit Booking Request →</button>
+                        <div class="book-success" id="bookSuccess">✓ &nbsp; Booking received. We'll confirm within 24 hours.</div>
+                    </form>
+                </div>
+                <div class="quote-panel">
+                    <div class="qp-head"><div class="qp-head-eye">Your Selection</div><div class="qp-head-title" id="qpTitle">Select a package above</div></div>
+                    <div class="qp-empty" id="qpEmpty"><div class="qp-empty-icon">📋</div><div class="qp-empty-text">Select a package to see your summary.</div></div>
+                    <div class="qp-body" id="qpBody">
+                        <div class="qp-row"><span class="qp-lbl">Package</span><span class="qp-val" id="qp-pkg">—</span></div>
+                        <div class="qp-row"><span class="qp-lbl">Slot Share</span><span class="qp-val" id="qp-share">—</span></div>
+                        <div class="qp-row"><span class="qp-lbl">Ad Duration</span><span class="qp-val" id="qp-dur">—</span></div>
+                        <div class="qp-row"><span class="qp-lbl">Plays Per Day</span><span class="qp-val">95</span></div>
+                        <div class="qp-row"><span class="qp-lbl">Location</span><span class="qp-val">Sea Point, Cape Town</span></div>
+                        <div class="qp-airtime">
+                            <div class="qp-airtime-head">Monthly Performance</div>
+                            <div class="qp-at-row"><span class="qpa-l">Screen time / cycle</span><span class="qpa-v" id="qpa-secs">—</span></div>
+                            <div class="qp-at-row"><span class="qpa-l">Total plays / month</span><span class="qpa-v">2,850</span></div>
+                            <div class="qp-at-row"><span class="qpa-l">Monthly impressions</span><span class="qpa-v">~1,800,000</span></div>
+                        </div>
+                        <div class="qp-bonus-note" id="qpBonusNote">⭐ As a Premium client, any unsold space in other slots also plays your content — giving you additional screen time at no extra cost.</div>
+                    </div>
+                    <div class="qp-total-wrap" id="qpTotal">
+                        <div class="qp-total-eye">Monthly Investment</div>
+                        <div class="qp-total-price" id="qp-total">—</div>
+                        <div class="qp-total-sub">per month · excl. VAT</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer><div class="footer-logo"><svg style="width:48px;height:48px;flex-shrink:0;" viewBox="0 0 100 100"><rect width="100" height="100" fill="black"/><text x="50" y="68" font-family="Arial Black,Arial,sans-serif" font-size="62" fill="white" font-weight="bold" text-anchor="middle">Z</text></svg><div><div class="footer-logo-text">Black Zebra</div><p class="footer-tagline">Outdoor Billboard Advertising — South Africa</p></div></div><div class="footer-right"><p>© 2025 Black Zebra. All rights reserved.</p></div></footer>
+</div>
+
+<script>
+    function showPage(id){
+        document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+        document.getElementById(id).classList.add('active');
+        window.scrollTo({top:0,behavior:'smooth'});
+        if(id==='book'&&preSelPkg){setTimeout(function(){bookPkg(preSelPkg);preSelPkg=null;},80);}
+    }
+    function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}
+    function closeMenu(){document.getElementById('navLinks').classList.remove('open');}
+    function toggleBoard(id){
+        var body=document.getElementById(id+'-body');
+        var arrow=document.getElementById(id+'-arrow');
+        if(!body)return;
+        if(body.classList.contains('open')){body.classList.remove('open');if(arrow)arrow.style.transform='rotate(-90deg)';}
+        else{body.classList.add('open');if(arrow)arrow.style.transform='rotate(0deg)';}
+    }
+    window.addEventListener('load',function(){
+        var bg=document.getElementById('heroBg');
+        if(bg)setTimeout(function(){bg.classList.add('loaded');},100);
+    });
+    var PKGS={
+        standard:{name:'Standard',share:'¼ of slot',dur:'15 seconds',adSec:15,price:50000,bonus:false},
+        executive:{name:'Executive',share:'½ of slot',dur:'30 seconds',adSec:30,price:70000,bonus:false},
+        premium:{name:'Premium ★',share:'Full slot',dur:'60 seconds',adSec:60,price:90000,bonus:true}
+    };
+    var bState={pkg:null};
+    var preSelPkg=null;
+    function preSelect(p){preSelPkg=p;}
+    function bookPkg(key){
+        bState.pkg=key;
+        document.querySelectorAll('.slot-card').forEach(function(c){c.classList.remove('chosen');});
+        document.getElementById('bpkg-'+key).classList.add('chosen');
+        updateQuote();
+    }
+    function updateQuote(){
+        if(!bState.pkg)return;
+        var p=PKGS[bState.pkg];
+        document.getElementById('qpEmpty').style.display='none';
+        document.getElementById('qpBody').style.display='block';
+        document.getElementById('qpTotal').style.display='block';
+        document.getElementById('qpTitle').textContent=p.name+' — '+p.share;
+        setEl('qp-pkg',p.name);
+        setEl('qp-share',p.share);
+        setEl('qp-dur',p.dur);
+        setEl('qpa-secs',p.adSec+'s per cycle');
+        setEl('qp-total','R '+p.price.toLocaleString());
+        document.getElementById('qpBonusNote').classList.toggle('show',p.bonus);
+    }
+    function setEl(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+    function submitContact(e){e.preventDefault();var m=document.getElementById('contactSuccess');m.style.display='block';e.target.reset();setTimeout(function(){m.style.display='none';},5000);}
+    function submitBook(e){e.preventDefault();if(!bState.pkg){alert('Please select a package first.');return;}var m=document.getElementById('bookSuccess');m.style.display='block';e.target.reset();setTimeout(function(){m.style.display='none';},6000);}
+</script>
+</body>
+</html>
